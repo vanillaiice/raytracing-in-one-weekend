@@ -3,6 +3,7 @@ const std = @import("std");
 const constants = @import("constants.zig");
 const hittable = @import("hittable.zig");
 const hittableList = @import("hittable_list.zig");
+const interval = @import("interval.zig");
 const ray = @import("ray.zig");
 const sphere = @import("sphere.zig");
 const vec3 = @import("vec3.zig");
@@ -44,15 +45,23 @@ const Color = struct {
         _ = self; // autofix
 
         var rec: hittable.HitRecord = undefined;
-        if (world.hit(r, 0, constants.infinity, &rec)) {
-            const vec = @as(vec3.Vec3, @splat(0.5)) * (rec.normal + vec3.Vec3{ 1, 1, 1 });
+        if (world.hit(
+            r,
+            interval.Interval.init(0, constants.infinity),
+            &rec,
+        )) {
+            const vec = @as(vec3.Vec3, @splat(0.5)) *
+                (rec.normal + vec3.Vec3{ 1, 1, 1 });
             return Color{ .vec = vec };
         }
 
         const unit_direction = vec3.unit_vector(r.dir);
         const a = 0.5 * (unit_direction[1] + 1.0);
 
-        return Color{ .vec = @as(vec3.Vec3, @splat(1 - a)) * Color.init(1, 1, 1).vec + @as(vec3.Vec3, @splat(a)) * Color.init(0.5, 0.7, 1).vec };
+        return Color{ .vec = @as(vec3.Vec3, @splat(1 - a)) *
+            Color.init(1, 1, 1).vec +
+            @as(vec3.Vec3, @splat(a)) *
+                Color.init(0.5, 0.7, 1).vec };
     }
 };
 

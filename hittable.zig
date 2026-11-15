@@ -1,3 +1,4 @@
+const interval = @import("interval.zig");
 const ray = @import("ray.zig");
 const vec3 = @import("vec3.zig");
 
@@ -7,7 +8,11 @@ pub const HitRecord = struct {
     t: f64,
     front_face: bool,
 
-    pub fn set_face_normal(self: *HitRecord, r: *const ray.Ray, outward_normal: vec3.Vec3) void {
+    pub fn set_face_normal(
+        self: *HitRecord,
+        r: *const ray.Ray,
+        outward_normal: vec3.Vec3,
+    ) void {
         self.front_face = vec3.dot(r.dir, outward_normal) < 0;
         self.normal = if (self.front_face)
             outward_normal
@@ -16,6 +21,11 @@ pub const HitRecord = struct {
     }
 };
 
-pub fn hit(object: anytype, r: *const ray.Ray, t_min: f64, t_max: f64, rec: *HitRecord) bool {
-    return object.hit(r, t_min, t_max, rec);
+pub fn hit(
+    object: anytype,
+    r: *const ray.Ray,
+    ray_t: interval.Interval,
+    rec: *HitRecord,
+) bool {
+    return object.hit(r, ray_t, rec);
 }
