@@ -1,1 +1,1 @@
-# [raytracing](https://raytracing.github.io/books/RayTracingInOneWeekend.html#outputanimage/creatinganimagefile) in one weekend in zig
+# [raytracing](https://raytracing.github.io/books/RayTracingInOneWeekend.html) in one weekend in zig
