@@ -45,7 +45,6 @@ pub const Sphere = struct {
 
         const outward_normal = (rec.p - self.center) / @as(vec3.Vec3, @splat(self.radius));
         rec.set_face_normal(r, outward_normal);
-        // rec.normal = (rec.p - self.center) / self.radius;
 
         return true;
     }
